@@ -10,10 +10,10 @@ This map file is very big about 500MB, which is why not pushed to github.com
 
 C++ 源代码在 src目录下面：“src/osm_pbf_to_scene_gltf.cpp”。C++代码需要先编译再运行。步骤如下：
 
-First install below lib:
-sudo apt install nlohmann-json3-dev
-sudo apt install     libosmium2-dev     libboost-dev     zlib1g-dev
-sudo apt install     zlib1g-dev     libbz2-dev     libexpat1-dev
+First install below lib (3 commands or combine them):
+sudo apt install    nlohmann-json3-dev
+sudo apt install    libosmium2-dev     libboost-dev     zlib1g-dev
+sudo apt install    zlib1g-dev     libbz2-dev     libexpat1-dev
 
 Then compile the C++ code like below: 
 g++ src/osm_pbf_to_scene_gltf.cpp     -Ithird_party/earcut.hpp/include     -Ithird_party/json/single_include     -std=c++17     -o osm_pbf_to_scene_gltf     -lz -lbz2 -lexpat
