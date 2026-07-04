@@ -350,8 +350,3 @@ cmake --build build --config Release
 
 这样以后增加库时几乎不用再手动写 `/I`、`/LIBPATH`。
 
----
-
-我还想先确认一件事：你的 `MapMatchingC` 项目是**你自己写的**，还是从 GitHub 克隆的？
-
-如果是 GitHub 项目，把仓库地址发给我，我可以直接告诉你在 Windows 下应该怎么编译，甚至帮你生成完整的 `CMakeLists.txt`。
