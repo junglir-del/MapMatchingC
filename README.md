@@ -50,7 +50,7 @@ tile 越多，单块 Clipper 压力越小，进度也更细；但会生成更多
 最后生成的模型可以用这个网站导入模型：https://threejs.org/editor/，用高德地图验证是否正确：https://www.amap.com/search?query=%E5%8D%97%E4%BA%AC&city=110000&geoobj=115.41888%7C39.294693%7C118.249433%7C40.571008&zoom=9.04 （定位南京）
 
 
-# Model generation/output
+# 程序的输入参数，输出文件参数
 
 1. 选择区域，根据经纬度生成glb，gltf（和bin）的地图文件
 --bbox 32.0000 118.7000 32.0900 118.8600，南京市新街口附件区域。
