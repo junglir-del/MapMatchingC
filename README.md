@@ -1,23 +1,22 @@
 
 # MapMatching
 
-Need to download the xxx.osm.pbf map first from https://download.geofabrik.de/。中国江苏的地图从这里下载https://download.geofabrik.de/asia/china/jiangsu.html/。
+1. Need to download the xxx.osm.pbf map first from https://download.geofabrik.de/。中国江苏的地图从这里下载https://download.geofabrik.de/asia/china/jiangsu.html/。
 
 This map file is very big about 500MB, which is why not pushed to github.com
 
-程序运行时也需要从opentopography.org下载DEM地图信息包含地形起伏的数据，这个会用API key。需要先申请账号，然后申请免费的API key。然后再Linux下执行以下命令把API key添加进去
+2. 程序运行时也需要从opentopography.org下载DEM地图信息包含地形起伏的数据，这个会用API key。需要先申请账号，然后申请免费的API key。然后再Linux下执行以下命令把API key添加进去
 export OPENTOPO_API_KEY = <paste your API key here directly>
 
 # Configure the C/C++ running environment and install the lib （WSL environment in Windows, or Linux environment）
 
-C++ 源代码在 src目录下面：“src/osm_pbf_to_scene_gltf.cpp”。C++代码需要先编译再运行。步骤如下：
+C++ 源代码在 src目录下面：“src/osm_pbf_to_scene_gltf.cpp” 和“osm_pbf_DEM4_precise_soil_fill.cpp”。C++代码需要先编译再运行。步骤如下：
 
-First install below lib (3 commands or combine them):
+First install below lib (seperate commands or combine them):
 sudo apt install    nlohmann-json3-dev
 sudo apt install    libosmium2-dev     libboost-dev     zlib1g-dev
 sudo apt install    zlib1g-dev     libbz2-dev     libexpat1-dev
-
-libgdal-dev 和 gdal-bin
+还有libgdal-dev 和 gdal-bin, 及其他库函数
 
 Then compile the C++ code like below: 
 1. 编译没有地形高低起伏的
@@ -28,7 +27,7 @@ After that:
 bbox 32.0000 118.7000 32.0900 118.8600 --material-mode infer
 
 
-2. 编译包含地形起伏高低
+2. 编译包含地形起伏高低 （重庆，爱丁堡，等地）
 g++ src/osm_pbf_DEM4_precise_soil_fill.cpp \
     -I/usr/include/gdal \
     -Ithird_party/earcut.hpp/include \
@@ -39,16 +38,19 @@ g++ src/osm_pbf_DEM4_precise_soil_fill.cpp \
     -lz -lbz2 -lexpat
 
 After that: 
-./osm_pbf_to_scene_gltf ../Maps/chongqing-260703.osm.pbf output_precise.glb     --format glb     --bbox 29.5410 106.5238 29.5865 106.5948     --material-mode infer     --download-dem     --dem-type COP30   --soil-clip-tiles 8
+./osm_pbf_to_scene_gltf ../Maps/chongqing-260703.osm.pbf output_precise.glb     --format glb     --bbox 29.5410 106.5238 29.5865 106.5948  --material-mode infer     --download-dem     --dem-type COP30     --soil-clip-tiles 12
 
-如果慢，可以试：
---soil-clip-tiles 12, 或者：
---soil-clip-tiles 16, 
+如果Precise soil clipping with Clipper过程慢，可以试：
+--soil-clip-tiles 12 或者--soil-clip-tiles 16, 
 tile 越多，单块 Clipper 压力越小，进度也更细；但会生成更多分块边界上的 soil polygon。建筑、道路、水体、植被这些真实边界的裁切精度没有降低
 
-输出是模型文件output_precise.glb 和模型中的建筑物属性文件output_precise_extras.json
+3. 输出是模型文件output_precise.glb 和模型中的建筑物属性文件output_precise_extras.json
 
-模型可以用这个网站导入模型：https://threejs.org/editor/，用高德地图验证是否正确：https://www.amap.com/search?query=%E5%8D%97%E4%BA%AC&city=110000&geoobj=115.41888%7C39.294693%7C118.249433%7C40.571008&zoom=9.04 （定位南京）
+
+最后生成的模型可以用这个网站导入模型：https://threejs.org/editor/，用高德地图验证是否正确：https://www.amap.com/search?query=%E5%8D%97%E4%BA%AC&city=110000&geoobj=115.41888%7C39.294693%7C118.249433%7C40.571008&zoom=9.04 （定位南京）
+
+
+# Model generation/output
 
 1. 选择区域，根据经纬度生成glb，gltf（和bin）的地图文件
 --bbox 32.0000 118.7000 32.0900 118.8600，南京市新街口附件区域。
